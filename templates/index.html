@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YouTube Downloader</title>
+  <style>
+  body { background: pink; color: rgba(243, 93, 194, 0.83); font-family: Arial; text-align: center;}
+  textarea { width: 80%; height: 500px; background: rgba(32, 29, 29, 0.83); color: white; border: none; padding: 10px; box-shadow: cornflowerblue 0px 0px 1000px; }
+  button { padding: 10px 20px; background: rgba(239, 84, 188, 0.9); color: white; border: none; cursor: pointer; box-shadow: cornflowerblue 0px 0px 1000px; }
+</style>
+</head>
+<body>
+  <h1>YouTube->.WAV Downloader</h1>
+  <h3>$ome$exy$auce4U</h3>
+  <textarea id="urls" placeholder="Enter YouTube URLs (one per line)"></textarea><br><br>
+  <button onclick="download()">Download</button>
+  <button onclick="downloadZip()">Download as ZIP</button>
+  <p id="status"></p>
+
+  <script>
+    async function download() {
+      const urls = document.getElementById('urls').value.split('\n').filter(x => x.trim());
+      document.getElementById('status').innerText = "Downloading..."
+      const res = await fetch('/download', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ urls })
+      });
+      const data = await res.json();
+      document.getElementById('status').innerText = data.message || data.error;
+    }
+  </script>
+</body>
+</html>
